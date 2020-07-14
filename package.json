@@ -8,7 +8,7 @@
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
-    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:integration": "npm test -- -c jest-integration-config.js",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "check": "npm-check -s -u"
@@ -31,6 +31,7 @@
     "@types/jest": "^26.0.0",
     "@types/mongodb": "^3.5.25",
     "@types/node": "^14.0.13",
+    "@types/supertest": "^2.0.10",
     "@types/validator": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "eslint": "^7.3.1",
@@ -44,6 +45,7 @@
     "jest": "^26.1.0",
     "lint-staged": "^10.2.11",
     "sucrase": "^3.15.0",
+    "supertest": "^4.0.2",
     "ts-jest": "^26.1.1",
     "typescript": "^3.9.5"
   },
