@@ -1,11 +1,11 @@
 import { DbAuthentication } from './db-authentication'
 import { AccountModel } from '../../../domain/models/account'
 import { AuthenticationModel } from '../../../domain/usecases/authentication'
-import { 
-  TokenGenerator, 
-  HashComparer, 
-  LoadAccountByEmailRepository, 
-  UpdateAccessTokenRepository 
+import {
+  TokenGenerator,
+  HashComparer,
+  LoadAccountByEmailRepository,
+  UpdateAccessTokenRepository
 } from './db-authentication-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
@@ -70,8 +70,8 @@ const makeSut = (): SutTypes => {
   const tokenGeneratorStub = makeTokenGenerator()
   const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
   const sut = new DbAuthentication(
-    loadAccountByEmailRepositoryStub, 
-    hashComparerStub, 
+    loadAccountByEmailRepositoryStub,
+    hashComparerStub,
     tokenGeneratorStub,
     updateAccessTokenRepositoryStub
   )
