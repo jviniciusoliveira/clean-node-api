@@ -43,4 +43,11 @@ describe('Bcrypt Adater', () => {
     await sut.compare('any_value', 'any_hash')
     expect(compareSpy).toHaveBeenCalledWith('any_value', 'any_hash')
   })
+
+  test('should return false when compare fails', async () => {
+    const sut = makeSut()
+    jest.spyOn(bcrypt, 'compare').mockReturnValueOnce(new Promise(resolve => resolve(false)))
+    const isValid = await sut.compare('any_value', 'any_hash')
+    expect(isValid).toBe(false)
+  })
 })
