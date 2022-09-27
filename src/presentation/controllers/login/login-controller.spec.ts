@@ -5,7 +5,7 @@ import { HttpRequest, Authentication, Validation, AuthenticationModel } from './
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string> {
+    async auth (authentication: AuthenticationModel): Promise<string | null> {
       return 'any_token'
     }
   }
@@ -14,9 +14,7 @@ const makeAuthentication = (): Authentication => {
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
-    validate (input: any): Error {
-      return null
-    }
+    validate (input: any): Error | void {}
   }
 
   return new ValidationStub()
