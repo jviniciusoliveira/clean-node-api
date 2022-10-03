@@ -8,6 +8,27 @@ import jwt from 'jsonwebtoken'
 let surveyColletion: Collection
 let accountColletion: Collection
 
+const makeAccessToken = async (): Promise<string> => {
+  const res = await accountColletion.insertOne({
+    name: 'José Vinicius',
+    email: 'jviniciusoliveira@gmail.com',
+    password: '123',
+    role: 'admin'
+  })
+  const id = res.insertedId.toHexString()
+  const accessToken = jwt.sign({ id }, env.jwtSecret)
+
+  await accountColletion.updateOne({
+    _id: res.insertedId
+  }, {
+    $set: {
+      accessToken
+    }
+  })
+
+  return accessToken
+}
+
 describe('Login Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(env.mongoUrl)
@@ -45,22 +66,7 @@ describe('Login Routes', () => {
     })
 
     test('should return 204 on add survey with valid access token', async () => {
-      const res = await accountColletion.insertOne({
-        name: 'José Vinicius',
-        email: 'jviniciusoliveira@gmail.com',
-        password: '123',
-        role: 'admin'
-      })
-      const id = res.ops[0]._id
-      const accessToken = jwt.sign({ id }, env.jwtSecret)
-
-      await accountColletion.updateOne({
-        _id: id
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken()
 
       await request(app)
         .post('/api/surveys')
@@ -89,21 +95,7 @@ describe('Login Routes', () => {
     })
 
     test('should return 2xx on load surveys with valid access token', async () => {
-      const res = await accountColletion.insertOne({
-        name: 'José Vinicius',
-        email: 'jviniciusoliveira@gmail.com',
-        password: '123'
-      })
-      const id = res.ops[0]._id
-      const accessToken = jwt.sign({ id }, env.jwtSecret)
-
-      await accountColletion.updateOne({
-        _id: id
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken()
 
       await request(app)
         .get('/api/surveys')
