@@ -54,7 +54,13 @@ describe('DbSaveSurveyResult', () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save')
     const surveyData = makeFakeSaveSurveyData()
-    await sut.save(surveyData)
+    await sut.save(makeFakeSaveSurveyData())
     expect(addSpy).toBeCalledWith(surveyData)
+  })
+
+  test('should return an survey result on success', async () => {
+    const { sut } = makeSut()
+    const surveyReult = await sut.save(makeFakeSaveSurveyData())
+    expect(surveyReult).toEqual(makeFakeSurveyResult())
   })
 })
