@@ -1,6 +1,6 @@
 import { DbAuthentication } from './db-authentication'
-import { AccountModel } from '../../../domain/models/account'
-import { AuthenticationModel } from '../../../domain/usecases/authentication'
+import { AccountModel } from '@/domain/models/account'
+import { AuthenticationModel } from '@/domain/usecases/authentication'
 import {
   Encrypter,
   HashComparer,
