@@ -55,7 +55,7 @@ describe('Survey Mongo Repository', () => {
     await surveyResultColletion.deleteMany({})
   })
 
-  describe('add()', () => {
+  describe('save()', () => {
     test('should add a survey result', async () => {
       const account = await makeAccount()
       const survey = await makeSurvey()
@@ -70,6 +70,29 @@ describe('Survey Mongo Repository', () => {
 
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.id).toBeTruthy()
+      expect(surveyResult.answer).toBe(survey.answers[0].answer)
+    })
+
+    test('should update a survey result if its not new', async () => {
+      const account = await makeAccount()
+      const survey = await makeSurvey()
+      const res = await surveyResultColletion.insertOne({
+        surveyId: account.id,
+        accountId: survey.id,
+        answer: survey.answers[0].answer,
+        date: new Date()
+      })
+
+      const sut = makeSut()
+      const surveyResult = await sut.save({
+        surveyId: account.id,
+        accountId: survey.id,
+        answer: survey.answers[0].answer,
+        date: new Date()
+      })
+
+      expect(surveyResult).toBeTruthy()
+      expect(surveyResult.id).toEqual(res.insertedId)
       expect(surveyResult.answer).toBe(survey.answers[0].answer)
     })
   })
