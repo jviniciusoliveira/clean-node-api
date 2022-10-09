@@ -6,6 +6,9 @@ import { HttpRequest, LoadSurveyById, SurveyModel } from './save-survey-result-c
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     surveyId: 'any_id'
+  },
+  body: {
+    answer: 'any_answer'
   }
 })
 
@@ -66,5 +69,16 @@ describe('SaveSurveyResult Controller', () => {
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 403 if invalid answer provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = await sut.handle({
+      ...makeFakeRequest(),
+      body: {
+        answer: 'wrong_answer'
+      }
+    })
+    expect(httpRequest).toEqual(forbidden(new InvalidParamError('answer')))
   })
 })
