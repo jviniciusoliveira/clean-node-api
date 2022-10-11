@@ -17,7 +17,7 @@ const makeFakeSurveyResult = (): SurveyResultModel => ({
   ...makeFakeSaveSurveyData()
 })
 
-const makeAddSurveyRepository = (): SaveSurveyResultRepository => {
+const makeSaveSurveyRepository = (): SaveSurveyResultRepository => {
   class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
     async save (surveyResultData: SaveSurveyResultParams): Promise<SurveyResultModel> {
       return new Promise(resolve => resolve(makeFakeSurveyResult()))
@@ -33,7 +33,7 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  const saveSurveyResultRepositoryStub = makeAddSurveyRepository()
+  const saveSurveyResultRepositoryStub = makeSaveSurveyRepository()
   const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub)
 
   return {

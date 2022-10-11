@@ -2,33 +2,12 @@ import MockDate from 'mockdate'
 import { LoadSurveysController } from './load-surveys-controller'
 import { SurveyModel, LoadSurveys } from './load-survey-controller-protocols'
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { throwError } from '@/domain/test'
-
-const makeFakeSurveys = (): SurveyModel[] => {
-  return [{
-    id: 'any_id',
-    question: 'any_question',
-    answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
-    }],
-    date: new Date()
-  },
-  {
-    id: 'other_id',
-    question: 'other_question',
-    answers: [{
-      image: 'other_image',
-      answer: 'other_answer'
-    }],
-    date: new Date()
-  }]
-}
+import { mockSurveyModels, throwError } from '@/domain/test'
 
 const makeLoadSurveysStub = (): LoadSurveys => {
   class LoadSurveysStub implements LoadSurveys {
     async load (): Promise<SurveyModel[]> {
-      return new Promise(resolve => resolve(makeFakeSurveys()))
+      return new Promise(resolve => resolve(mockSurveyModels()))
     }
   }
 
@@ -69,7 +48,7 @@ describe('LoadSurveys Controller', () => {
   test('should return 200 on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(ok(makeFakeSurveys()))
+    expect(httpResponse).toEqual(ok(mockSurveyModels()))
   })
 
   test('should return 204 if LoadSurveys returns empty', async () => {
