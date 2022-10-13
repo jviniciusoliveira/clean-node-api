@@ -7,7 +7,7 @@ import { mockSurveyModels, throwError } from '@/domain/test'
 const makeLoadSurveysStub = (): LoadSurveys => {
   class LoadSurveysStub implements LoadSurveys {
     async load (): Promise<SurveyModel[]> {
-      return new Promise(resolve => resolve(mockSurveyModels()))
+      return Promise.resolve(mockSurveyModels())
     }
   }
 
@@ -55,7 +55,7 @@ describe('LoadSurveys Controller', () => {
     const { sut, loadSurveysStub } = makeSut()
     jest
       .spyOn(loadSurveysStub, 'load')
-      .mockReturnValueOnce(new Promise(resolve => resolve([])))
+      .mockResolvedValueOnce([])
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(noContent())
   })
