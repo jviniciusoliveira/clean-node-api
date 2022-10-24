@@ -3,20 +3,24 @@ import { DbSaveSurveyResult } from './db-save-survey-result'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
 import { SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository'
 import { mockSaveSurveyResultParams, mockSurveyResultModel, throwError } from '@/domain/test'
-import { mockSaveSurveyRepository } from '@/data/test/mock-db-survey-result'
+import { mockSaveSurveyResultRepository, mockLoadSurveyResultRepository } from '@/data/test/mock-db-survey-result'
+import { LoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository'
 
 type SutTypes = {
   sut: SaveSurveyResult
   saveSurveyResultRepositoryStub: SaveSurveyResultRepository
+  loadSurveyResultRepositoryStub: LoadSurveyResultRepository
 }
 
 const makeSut = (): SutTypes => {
-  const saveSurveyResultRepositoryStub = mockSaveSurveyRepository()
-  const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub)
+  const saveSurveyResultRepositoryStub = mockSaveSurveyResultRepository()
+  const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepository()
+  const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub, loadSurveyResultRepositoryStub)
 
   return {
     sut,
-    saveSurveyResultRepositoryStub
+    saveSurveyResultRepositoryStub,
+    loadSurveyResultRepositoryStub
   }
 }
 
@@ -35,6 +39,14 @@ describe('DbSaveSurveyResult', () => {
     const surveyData = mockSaveSurveyResultParams()
     await sut.save(surveyData)
     expect(addSpy).toBeCalledWith(surveyData)
+  })
+
+  test('sould call LoadSurveyResultRepository with correct values', async () => {
+    const { sut, loadSurveyResultRepositoryStub } = makeSut()
+    const loadBySurveyIdSpy = jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
+    const surveyData = mockSaveSurveyResultParams()
+    await sut.save(surveyData)
+    expect(loadBySurveyIdSpy).toBeCalledWith(surveyData.surveyId)
   })
 
   test('should return an survey result on success', async () => {
