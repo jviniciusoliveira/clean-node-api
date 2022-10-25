@@ -42,7 +42,7 @@ type SutTypes = {
 const makeSut = (): SutTypes => {
   const loadSurveyByIdStub = makeLoadSurveyById()
   const loadSurveyResultStub = makeLoadSurveyResult()
-  const sut = new LoadSurveyResultController(loadSurveyByIdStub)
+  const sut = new LoadSurveyResultController(loadSurveyByIdStub, loadSurveyResultStub)
 
   return {
     sut,
@@ -74,5 +74,13 @@ describe('LoadSurveyResult Controller', () => {
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should call LoadSurveyResult with correct value', async () => {
+    const { sut, loadSurveyResultStub } = makeSut()
+    const loadSpy = jest.spyOn(loadSurveyResultStub, 'load')
+    const httpRequest = makeFakeRequest()
+    await sut.handle(httpRequest)
+    expect(loadSpy).toHaveBeenCalledWith(httpRequest.params.surveyId)
   })
 })
