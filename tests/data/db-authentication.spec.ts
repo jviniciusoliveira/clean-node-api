@@ -1,11 +1,11 @@
-import { DbAuthentication } from '@/data/usecases/account/authentication/db-authentication'
-import { mockEncrypter, mockHashComparer, mockLoadAccountByEmailRepository, mockUpdateAccessTokenRepository } from '@/tests/mocks/data'
+import { DbAuthentication } from '@/data/usecases'
 import {
   Encrypter,
   HashComparer,
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository
-} from '@/data/usecases/account/authentication/db-authentication-protocols'
+} from '@/data/protocols'
+import { mockEncrypter, mockHashComparer, mockLoadAccountByEmailRepository, mockUpdateAccessTokenRepository } from '@/tests/mocks/data'
 import { mockFakeAuthentication } from '@/tests/mocks/domain'
 
 type SutTypes = {

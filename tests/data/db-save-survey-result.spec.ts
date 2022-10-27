@@ -1,8 +1,7 @@
 import MockDate from 'mockdate'
-import { DbSaveSurveyResult } from '@/data/usecases/survey-result/save-survey-result/db-save-survey-result'
-import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
-import { SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository'
-import { LoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository'
+import { SaveSurveyResult } from '@/domain/usecases'
+import { DbSaveSurveyResult } from '@/data/usecases'
+import { SaveSurveyResultRepository, LoadSurveyResultRepository } from '@/data/protocols'
 import { mockSaveSurveyResultRepository, mockLoadSurveyResultRepository } from '@/tests/mocks/data'
 import { mockSaveSurveyResultParams, mockSurveyResultModel, throwError } from '@/tests/mocks/domain'
 

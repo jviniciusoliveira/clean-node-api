@@ -3,7 +3,7 @@ import { SurveyResultModel } from '@/domain/models/survey-result'
 import { LoadSurveyResultController } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller'
 import { HttpRequest, LoadSurveyById, SurveyModel } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller-protocols'
 import { mockSurveyModel, mockSurveyResultModel, throwError } from '@/tests/mocks/domain'
-import { LoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-result'
+import { LoadSurveyResult } from '@/domain/usecases'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors'
 
