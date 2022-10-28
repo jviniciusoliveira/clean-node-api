@@ -1,11 +1,12 @@
 import MockDate from 'mockdate'
 import { SurveyResultModel } from '@/domain/models/survey-result'
-import { LoadSurveyResultController } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller'
-import { HttpRequest, LoadSurveyById, SurveyModel } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller-protocols'
+import { LoadSurveyResultController } from '@/presentation/controllers/load-survey-result-controller'
+import { HttpRequest } from '@/presentation/protocols'
 import { mockSurveyModel, mockSurveyResultModel, throwError } from '@/tests/mocks/domain'
-import { LoadSurveyResult } from '@/domain/usecases'
+import { LoadSurveyById, LoadSurveyResult } from '@/domain/usecases'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors'
+import { SurveyModel } from '@/domain/models'
 
 const makeFakeRequest = (): HttpRequest => ({
   params: {

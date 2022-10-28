@@ -1,8 +1,9 @@
 import MockDate from 'mockdate'
-import { LoadSurveysController } from '@/presentation/controllers/survey/load-surveys/load-surveys-controller'
-import { SurveyModel, LoadSurveys } from '@/presentation/controllers/survey/load-surveys/load-survey-controller-protocols'
+import { LoadSurveysController } from '@/presentation/controllers/load-surveys-controller'
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockSurveyModels, throwError } from '@/tests/mocks/domain'
+import { LoadSurveys } from '@/domain/usecases'
+import { SurveyModel } from '@/domain/models'
 
 const makeLoadSurveysStub = (): LoadSurveys => {
   class LoadSurveysStub implements LoadSurveys {

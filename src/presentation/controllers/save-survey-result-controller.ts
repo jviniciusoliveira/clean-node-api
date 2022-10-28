@@ -1,7 +1,7 @@
-import { SaveSurveyResult } from '@/domain/usecases'
+import { LoadSurveyById, SaveSurveyResult } from '@/domain/usecases'
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, LoadSurveyById } from './save-survey-result-controller-protocols'
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 export class SaveSurveyResultController implements Controller {
   constructor (
