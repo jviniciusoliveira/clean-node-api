@@ -39,16 +39,16 @@ describe('LoadSurveys Controller', () => {
     MockDate.reset()
   })
 
-  test('should call LoadSurveys', async () => {
+  test('should call LoadSurveys with correct value', async () => {
     const { sut, loadSurveysStub } = makeSut()
     const loadSpy = jest.spyOn(loadSurveysStub, 'load')
-    await sut.handle({})
-    expect(loadSpy).toHaveBeenCalled()
+    await sut.handle({ accountId: 'any_account' })
+    expect(loadSpy).toHaveBeenCalledWith('any_account')
   })
 
   test('should return 200 on success', async () => {
     const { sut } = makeSut()
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle({ accountId: 'any_account' })
     expect(httpResponse).toEqual(ok(mockSurveyModels()))
   })
 
@@ -57,7 +57,7 @@ describe('LoadSurveys Controller', () => {
     jest
       .spyOn(loadSurveysStub, 'load')
       .mockResolvedValueOnce([])
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle({ accountId: 'any_account' })
     expect(httpResponse).toEqual(noContent())
   })
 
@@ -66,7 +66,7 @@ describe('LoadSurveys Controller', () => {
     jest
       .spyOn(loadSurveysStub, 'load')
       .mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle({ accountId: 'any_account' })
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
