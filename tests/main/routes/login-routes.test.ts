@@ -5,7 +5,7 @@ import env from '@/main/config/env'
 import app from '@/main/config/app'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 
-let accountColletion: Collection
+let accountCollection: Collection
 
 describe('Login Routes', () => {
   beforeAll(async () => {
@@ -17,8 +17,8 @@ describe('Login Routes', () => {
   })
 
   beforeEach(async () => {
-    accountColletion = await MongoHelper.getColletion('accounts')
-    await accountColletion.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('POST /signup', () => {
@@ -38,7 +38,7 @@ describe('Login Routes', () => {
   describe('POST /login', () => {
     test('should return 200 on login', async () => {
       const password = await hash('123', 12)
-      await accountColletion.insertOne({
+      await accountCollection.insertOne({
         name: 'José Vinicius',
         email: 'jviniciusoliveira@gmail.com',
         password

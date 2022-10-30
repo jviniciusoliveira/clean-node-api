@@ -3,12 +3,12 @@ import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { SurveyMongoRepository } from '@/infra/db/mongodb/survey/survey-mongo-repository'
 import { AccountModel } from '@/domain/models'
 
-let surveyColletion: Collection
-let accountColletion: Collection
-let surveyResultColletion: Collection
+let surveyCollection: Collection
+let accountCollection: Collection
+let surveyResultCollection: Collection
 
 const makeAccount = async (): Promise<AccountModel> => {
-  const result = await accountColletion.insertOne({
+  const result = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@mail.com',
     password: 'any_password'
@@ -31,14 +31,14 @@ describe('Survey Mongo Repository', () => {
   })
 
   beforeEach(async () => {
-    surveyColletion = await MongoHelper.getColletion('surveys')
-    await surveyColletion.deleteMany({})
+    surveyCollection = await MongoHelper.getCollection('surveys')
+    await surveyCollection.deleteMany({})
 
-    accountColletion = await MongoHelper.getColletion('accounts')
-    await accountColletion.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
 
-    surveyResultColletion = await MongoHelper.getColletion('surveyResults')
-    await surveyResultColletion.deleteMany({})
+    surveyResultCollection = await MongoHelper.getCollection('surveyResults')
+    await surveyResultCollection.deleteMany({})
   })
 
   describe('add()', () => {
@@ -57,7 +57,7 @@ describe('Survey Mongo Repository', () => {
         ],
         date: new Date()
       })
-      const survey = await surveyColletion.findOne({ question: 'any_question' })
+      const survey = await surveyCollection.findOne({ question: 'any_question' })
       expect(survey).toBeTruthy()
     })
   })
@@ -66,7 +66,7 @@ describe('Survey Mongo Repository', () => {
     test('should load all surveys on success', async () => {
       const account = await makeAccount()
 
-      const result = await surveyColletion.insertMany([{
+      const result = await surveyCollection.insertMany([{
         question: 'any_question',
         answers: [{
           image: 'any_image',
@@ -84,7 +84,7 @@ describe('Survey Mongo Repository', () => {
 
       const survey = result.ops[0]
 
-      await surveyResultColletion.insertOne({
+      await surveyResultCollection.insertOne({
         accountId: new ObjectId(account.id),
         surveyId: new ObjectId(survey._id),
         answer: survey.answers[0].answer,
@@ -111,7 +111,7 @@ describe('Survey Mongo Repository', () => {
 
   describe('loadById()', () => {
     test('should load surveys by id on success', async () => {
-      const { insertedId } = await surveyColletion.insertOne({
+      const { insertedId } = await surveyCollection.insertOne({
         question: 'any_question',
         answers: [{
           image: 'any_image',

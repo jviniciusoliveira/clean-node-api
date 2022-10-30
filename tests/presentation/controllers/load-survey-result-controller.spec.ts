@@ -88,7 +88,7 @@ describe('LoadSurveyResult Controller', () => {
     const loadSpy = jest.spyOn(loadSurveyResultStub, 'load')
     const request = makeFakeRequest()
     await sut.handle(request)
-    expect(loadSpy).toHaveBeenCalledWith(request.surveyId)
+    expect(loadSpy).toHaveBeenCalledWith(request.surveyId, request.accountId)
   })
 
   test('should return 500 if LoadSurveyResult throws', async () => {

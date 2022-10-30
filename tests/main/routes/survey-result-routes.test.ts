@@ -5,11 +5,11 @@ import env from '@/main/config/env'
 import app from '@/main/config/app'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 
-let surveyColletion: Collection
-let accountColletion: Collection
+let surveyCollection: Collection
+let accountCollection: Collection
 
 const makeAccessToken = async (): Promise<string> => {
-  const res = await accountColletion.insertOne({
+  const res = await accountCollection.insertOne({
     name: 'José Vinicius',
     email: 'jviniciusoliveira@gmail.com',
     password: '123',
@@ -18,7 +18,7 @@ const makeAccessToken = async (): Promise<string> => {
   const id = res.insertedId.toHexString()
   const accessToken = jwt.sign({ id }, env.jwtSecret)
 
-  await accountColletion.updateOne({
+  await accountCollection.updateOne({
     _id: res.insertedId
   }, {
     $set: {
@@ -39,11 +39,11 @@ describe('Survey Result Routes', () => {
   })
 
   beforeEach(async () => {
-    surveyColletion = await MongoHelper.getColletion('surveys')
-    await surveyColletion.deleteMany({})
+    surveyCollection = await MongoHelper.getCollection('surveys')
+    await surveyCollection.deleteMany({})
 
-    accountColletion = await MongoHelper.getColletion('accounts')
-    await accountColletion.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('PUT /surveys/:surveyId/results', () => {
@@ -59,7 +59,7 @@ describe('Survey Result Routes', () => {
     test('should return 200 on save survey result with valid accessToken', async () => {
       const accessToken = await makeAccessToken()
 
-      const res = await surveyColletion.insertOne({
+      const res = await surveyCollection.insertOne({
         question: 'Question',
         answers: [
           {
@@ -94,7 +94,7 @@ describe('Survey Result Routes', () => {
   test('should return 200 on load survey result with valid accessToken', async () => {
     const accessToken = await makeAccessToken()
 
-    const res = await surveyColletion.insertOne({
+    const res = await surveyCollection.insertOne({
       question: 'Question',
       answers: [
         {
