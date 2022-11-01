@@ -3,8 +3,8 @@ import { MissingParamError, ServerError, EmailInUseError } from '@/presentation/
 import { Validation } from '@/presentation/protocols'
 import { ok, badRequest, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
 import { throwError, mockAccountModel } from '@/tests/mocks/domain'
-import { AddAccount, AddAccountParams, Authentication, AuthenticationParams } from '@/domain/usecases'
-import { AccountModel, AuthenticationModel } from '@/domain/models'
+import { AddAccount, Authentication, AuthenticationParams } from '@/domain/usecases'
+import { AuthenticationModel } from '@/domain/models'
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
@@ -20,7 +20,7 @@ const makeAuthentication = (): Authentication => {
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountParams): Promise<AccountModel> {
+    async add (account: AddAccount.Params): Promise<AddAccount.Result> {
       return Promise.resolve(mockAccountModel())
     }
   }
