@@ -3,7 +3,7 @@ import { badRequest, noContent, serverError } from '@/presentation/helpers/http/
 import { AddSurveyController } from '@/presentation/controllers/add-survey-controller'
 import { Validation } from '@/presentation/protocols'
 import { throwError } from '@/tests/mocks/domain'
-import { AddSurvey, AddSurveyParams } from '@/domain/usecases'
+import { AddSurvey } from '@/domain/usecases'
 
 const makeFakeRequest = (): AddSurveyController.Request => ({
   question: 'any_question',
@@ -23,7 +23,7 @@ const makeValidation = (): Validation => {
 
 const makeAddSurvey = (): AddSurvey => {
   class AddSurveyStub implements AddSurvey {
-    async add (data: AddSurveyParams): Promise<void> {}
+    async add (data: AddSurvey.Params): Promise<void> {}
   }
 
   return new AddSurveyStub()
