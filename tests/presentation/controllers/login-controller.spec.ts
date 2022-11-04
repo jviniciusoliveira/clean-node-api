@@ -3,12 +3,11 @@ import { badRequest, serverError, unauthorized, ok } from '@/presentation/helper
 import { MissingParamError } from '@/presentation/errors'
 import { Validation } from '@/presentation/protocols'
 import { throwError } from '@/tests/mocks/domain'
-import { Authentication, AuthenticationParams } from '@/domain/usecases'
-import { AuthenticationModel } from '@/domain/models'
+import { Authentication } from '@/domain/usecases'
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+    async auth (authentication: Authentication.Params): Promise<Authentication.Result> {
       return {
         accessToken: 'any_token',
         name: 'any_name'

@@ -3,12 +3,11 @@ import { MissingParamError, ServerError, EmailInUseError } from '@/presentation/
 import { Validation } from '@/presentation/protocols'
 import { ok, badRequest, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
 import { throwError, mockAccountModel } from '@/tests/mocks/domain'
-import { AddAccount, Authentication, AuthenticationParams } from '@/domain/usecases'
-import { AuthenticationModel } from '@/domain/models'
+import { AddAccount, Authentication } from '@/domain/usecases'
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+    async auth (authentication: Authentication.Params): Promise<Authentication.Result> {
       return {
         accessToken: 'any_token',
         name: 'any_name'
