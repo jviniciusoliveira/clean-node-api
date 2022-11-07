@@ -1,4 +1,4 @@
-import { AccountModel, LoadAccountByToken } from '@/presentation/middlewares/auth-middleware-protocols'
+import { LoadAccountByToken } from '@/presentation/middlewares/auth-middleware-protocols'
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
 import { AccessDeniedError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
@@ -10,7 +10,7 @@ const makeFakeRequest = (): AuthMiddleware.Request => ({
 
 const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (accessToken: string, role?: string): Promise<AccountModel> {
+    async load (accessToken: string, role?: string): Promise<LoadAccountByToken.Result> {
       return Promise.resolve(mockAccountModel())
     }
   }
