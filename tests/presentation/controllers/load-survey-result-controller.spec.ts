@@ -1,5 +1,4 @@
 import MockDate from 'mockdate'
-import { SurveyResultModel } from '@/domain/models/survey-result'
 import { LoadSurveyResultController } from '@/presentation/controllers/load-survey-result-controller'
 import { mockSurveyModel, mockSurveyResultModel, throwError } from '@/tests/mocks/domain'
 import { LoadSurveyById, LoadSurveyResult } from '@/domain/usecases'
@@ -24,7 +23,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 
 const makeLoadSurveyResult = (): LoadSurveyResult => {
   class LoadSurveyResultStub implements LoadSurveyResult {
-    async load (surveyId: string): Promise<SurveyResultModel> {
+    async load (surveyId: string): Promise<LoadSurveyResult.Result> {
       return Promise.resolve(mockSurveyResultModel())
     }
   }
