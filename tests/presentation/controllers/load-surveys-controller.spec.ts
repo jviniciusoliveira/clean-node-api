@@ -3,11 +3,10 @@ import { LoadSurveysController } from '@/presentation/controllers/load-surveys-c
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockSurveyModels, throwError } from '@/tests/mocks/domain'
 import { LoadSurveys } from '@/domain/usecases'
-import { SurveyModel } from '@/domain/models'
 
 const makeLoadSurveysStub = (): LoadSurveys => {
   class LoadSurveysStub implements LoadSurveys {
-    async load (): Promise<SurveyModel[]> {
+    async load (): Promise<LoadSurveys.Result> {
       return Promise.resolve(mockSurveyModels())
     }
   }

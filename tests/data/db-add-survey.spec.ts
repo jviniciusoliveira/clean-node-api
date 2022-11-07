@@ -28,7 +28,7 @@ describe('DbAddSurvey UseCase', () => {
     MockDate.reset()
   })
 
-  test('sould call AddSurveyRepository with correct values', async () => {
+  test('should call AddSurveyRepository with correct values', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addSurveyRepositoryStub, 'add')
     const surveyData = mockAddSurveyParams()

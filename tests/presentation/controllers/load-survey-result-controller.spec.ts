@@ -4,7 +4,6 @@ import { mockSurveyModel, mockSurveyResultModel, throwError } from '@/tests/mock
 import { LoadSurveyById, LoadSurveyResult } from '@/domain/usecases'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors'
-import { SurveyModel } from '@/domain/models'
 
 const makeFakeRequest = (): LoadSurveyResultController.Request => ({
   surveyId: 'any_id',
@@ -13,7 +12,7 @@ const makeFakeRequest = (): LoadSurveyResultController.Request => ({
 
 const makeLoadSurveyById = (): LoadSurveyById => {
   class LoadSurveyByIdStub implements LoadSurveyById {
-    async loadById (id: string): Promise<SurveyModel> {
+    async loadById (id: string): Promise<LoadSurveyById.Result> {
       return Promise.resolve(mockSurveyModel())
     }
   }

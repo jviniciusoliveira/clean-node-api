@@ -32,7 +32,7 @@ describe('DbSaveSurveyResult', () => {
     MockDate.reset()
   })
 
-  test('sould call SaveSurveyResultRepository with correct values', async () => {
+  test('should call SaveSurveyResultRepository with correct values', async () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save')
     const surveyData = mockSaveSurveyResultParams()
@@ -40,12 +40,12 @@ describe('DbSaveSurveyResult', () => {
     expect(addSpy).toBeCalledWith(surveyData)
   })
 
-  test('sould call LoadSurveyResultRepository with correct values', async () => {
+  test('should call LoadSurveyResultRepository with correct values', async () => {
     const { sut, loadSurveyResultRepositoryStub } = makeSut()
     const loadBySurveyIdSpy = jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
     const surveyData = mockSaveSurveyResultParams()
     await sut.save(surveyData)
-    expect(loadBySurveyIdSpy).toBeCalledWith(surveyData.surveyId)
+    expect(loadBySurveyIdSpy).toBeCalledWith(surveyData.surveyId, surveyData.accountId)
   })
 
   test('should return an survey result on success', async () => {
