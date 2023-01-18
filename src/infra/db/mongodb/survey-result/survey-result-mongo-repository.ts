@@ -7,7 +7,7 @@ import { MongoHelper, QueryBuilder } from '../helpers'
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository, LoadSurveyResultRepository {
   async save (data: SaveSurveyResult.Params): Promise<void> {
-    const surveyResultsCollection = await MongoHelper.getCollection('surveyResults')
+    const surveyResultsCollection = MongoHelper.getCollection('surveyResults')
     await surveyResultsCollection.findOneAndUpdate({
       surveyId: new ObjectId(data.surveyId),
       accountId: new ObjectId(data.accountId)
@@ -22,7 +22,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
   }
 
   async loadBySurveyId (surveyId: string, accountId: string): Promise<SurveyResultModel> {
-    const surveyResultsCollection = await MongoHelper.getCollection('surveyResults')
+    const surveyResultsCollection = MongoHelper.getCollection('surveyResults')
 
     const query = new QueryBuilder()
       .match({
@@ -189,7 +189,8 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
       })
       .build()
 
-    const surveyresult = await surveyResultsCollection.aggregate(query).toArray()
+    const surveyresult = await surveyResultsCollection.aggregate<SurveyResultModel>(query).toArray()
+
     return surveyresult.length ? surveyresult[0] : null
   }
 }

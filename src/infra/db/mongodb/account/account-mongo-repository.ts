@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import { AddAccount } from '@/domain/usecases'
 import { MongoHelper } from '../helpers/mongo-helper'
@@ -7,23 +8,25 @@ import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-a
 
 export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
   async add (accountData: AddAccount.Params): Promise<AddAccount.Result> {
-    const accountColletion = await MongoHelper.getCollection('accounts')
+    const accountColletion = MongoHelper.getCollection('accounts')
     const result = await accountColletion.insertOne(accountData)
 
-    return MongoHelper.map(result.ops[0])
+    const account = await accountColletion.findOne({ _id: result.insertedId })
+
+    return MongoHelper.map(account)
   }
 
   async loadByEmail (email: string): Promise<LoadAccountByEmailRepository.Result> {
-    const accountColletion = await MongoHelper.getCollection('accounts')
+    const accountColletion = MongoHelper.getCollection('accounts')
     const account = await accountColletion.findOne({ email })
 
     return account && MongoHelper.map(account)
   }
 
   async updateAccessToken (id: string, token: string): Promise<void> {
-    const accountColletion = await MongoHelper.getCollection('accounts')
+    const accountColletion = MongoHelper.getCollection('accounts')
     await accountColletion.updateOne({
-      _id: id
+      _id: new ObjectId(id)
     }, {
       $set: {
         accessToken: token
@@ -32,7 +35,7 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
   }
 
   async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result> {
-    const accountColletion = await MongoHelper.getCollection('accounts')
+    const accountColletion = MongoHelper.getCollection('accounts')
     const account = await accountColletion.findOne({
       accessToken: token,
       $or: [{

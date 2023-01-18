@@ -18,7 +18,7 @@ describe('Account Mongo Repository', () => {
   })
 
   beforeEach(async () => {
-    accountCollection = await MongoHelper.getCollection('accounts')
+    accountCollection = MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
 
@@ -69,9 +69,9 @@ describe('Account Mongo Repository', () => {
         email: 'any_email@mail.com',
         password: 'any_password'
       })
-      const enteredAccount = result.ops[0]
+      const enteredAccount = await accountCollection.findOne({ _id: result.insertedId })
       expect(enteredAccount.accessToken).toBeFalsy()
-      await sut.updateAccessToken(enteredAccount._id, 'any_token')
+      await sut.updateAccessToken(enteredAccount._id.toHexString(), 'any_token')
       const account = await accountCollection.findOne({ _id: enteredAccount._id })
       expect(account.accessToken).toBe('any_token')
     })
